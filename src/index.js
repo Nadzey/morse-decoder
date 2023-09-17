@@ -38,7 +38,29 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+
+const morseToChar = {
+    '**********': ' ',
+};
+for (const morseKey in MORSE_TABLE) {
+    if (MORSE_TABLE.hasOwnProperty(morseKey)) {
+        let newKey = morseKey.replace(/\./g, '10').replace(/-/g, '11'); 
+        while (newKey.length < 10) {
+            newKey = '0' + newKey; 
+        }
+        morseToChar[newKey] = MORSE_TABLE[morseKey];
+    }
+}
+
+const chunks = expr.match(/.{10}/g);
+const decoded = chunks.map(chunk => {
+    if (chunk in morseToChar) {
+        return morseToChar[chunk];
+    }
+    return '';
+});
+
+return decoded.join('');
 }
 
 module.exports = {
